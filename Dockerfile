@@ -8,7 +8,6 @@ RUN cd /home/ && \
 FROM openjdk:8-jre-alpine
 
 COPY --from=build "/home/target/tttbot-*.jar" "/home/tttbot.jar"
-COPY ./src/main/resources/application.properties /home/application.properties
 
 WORKDIR "/home/"
 
