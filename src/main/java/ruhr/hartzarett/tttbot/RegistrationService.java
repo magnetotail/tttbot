@@ -77,7 +77,7 @@ class RegistrationService extends ListenerAdapter {
         Member member = event.getMember();
         players.put(event.getMember(), player);
         logger.info("Registered user {} with player {}", member.getEffectiveName(), player);
-        if (config.isFunnyEnabled() && ThreadLocalRandom.current().nextInt(0, 50) >= 0) {
+        if (config.isFunnyEnabled() && ThreadLocalRandom.current().nextInt(0, 50) == 49) {
             jdaService.reactToMessage(event.getMessage(), "U+1F92A");
             jdaService.sendMessage("Nööööö, du nicht..");
             try {
