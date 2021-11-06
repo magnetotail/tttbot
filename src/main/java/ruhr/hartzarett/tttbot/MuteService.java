@@ -3,6 +3,7 @@ package ruhr.hartzarett.tttbot;
 import net.dv8tion.jda.api.entities.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,7 +35,14 @@ public class MuteService {
         }
     }
 
+    @Async
     public void muteEveryone(boolean muted) {
+        logger.info("Going to unmute everyone in one second. Waiting...");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         registrationService.getAllPlayers().forEach(p -> mute(p, muted));
     }
 }

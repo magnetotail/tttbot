@@ -22,11 +22,6 @@ public class MuteController {
     @PostMapping(path = "/unmute/all")
     public ResponseEntity<Object> unmuteAll() {
         logger.info("Got call to unmute all");
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         muteService.muteEveryone(false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
