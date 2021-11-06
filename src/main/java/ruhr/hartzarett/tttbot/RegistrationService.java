@@ -136,7 +136,7 @@ class RegistrationService extends ListenerAdapter {
 
     private String createHelpText() {
         return "Es scheint, dass du nicht ganz genau weißt, wie das hier funktioniert, aber kein Problem :)\n" +
-                "Ich kann deine TTT-Experience unterstützen, indem ich dicht automatisch mute, wenn du im Spiel stirbst. Am Ende der Runde wirst du automatisch entmutet.\n" +
+                "Ich kann deine TTT-Experience unterstützen, indem ich dich automatisch mute, wenn du im Spiel stirbst. Am Ende der Runde wirst du automatisch entmutet.\n" +
                 "Das funktioniert so:\n" +
                 REGISTER_COMMAND + " {DEIN STEAM NAME} registriert deinen Steam ingamenamen, wodurch erkannt wird, dass du gestorben bist.\n" +
                 REMOVE_COMMAND + " Löscht automatisch die Verbindung mit deinem Namen\n" +
