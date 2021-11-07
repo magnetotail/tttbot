@@ -1,17 +1,14 @@
 package ruhr.hartzarett.tttbot;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.hooks.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.LoginException;
 import java.util.List;
 
 @Service
@@ -35,7 +32,6 @@ public class JDAService {
         logger.info("JDA Initialization succesful!");
         logger.info("Searching for channels with name {}", config.getChannelName());
         List<TextChannel> channels = this.jda.getTextChannelsByName(config.getChannelName(), false);
-        System.out.println(channels);
         if (channels.isEmpty()) {
             logger.error("Could not find the specified channel {}. Please check the name in your application.properties file. Exiting.", config.getChannelName());
             throw new RuntimeException("Could not find the channel I was supposed to look for");
