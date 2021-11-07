@@ -23,12 +23,14 @@ class RegistrationService extends ListenerAdapter {
     public static final String FORMAT_STRING_CURRENTLY_REGISTERED_FOR_DISCORD = "Aktuell registriert für User %s: %s";
     public static final String FORMAT_STRING_CURRENTLY_REGISTERED_FOR_STEAMNAME = "Aktuell registriert für Steam Namen %s: %s";
     public static final String FORMAT_STRING_REGISTERED_USER = "Habe den Steamnamen \"%s\" mit dem Discordnamen \"%s\" verknüpft";
+    public static final String MESSAGE_REMOVED = "Ich habe dich aus der Liste entfernt :)";
 
-    private static final String LIST_COMMAND = "!list";
-    private static final String REGISTER_COMMAND = "!register";
-    private static final String REMOVE_COMMAND = "!remove";
-    private static final String SHOW_FOR_STEAM = "!forsteam";
-    private static final String SHOW_COMMAND = "!show";
+
+    public static final String LIST_COMMAND = "!list";
+    public static final String REGISTER_COMMAND = "!register";
+    public static final String REMOVE_COMMAND = "!remove";
+    public static final String SHOW_FOR_STEAM = "!forsteam";
+    public static final String SHOW_COMMAND = "!show";
     public static final String GREETING = "Ich wurde neugestartet. Bitte registriert euch erneut, falls ihr automatisch gemutet werden wollt :)";
 
     private static Logger logger = LoggerFactory.getLogger(RegistrationService.class);
@@ -96,7 +98,7 @@ class RegistrationService extends ListenerAdapter {
         if (removed != null) {
             logger.info("Removed user {}", event.getMember().getEffectiveName());
             jdaService.reactToMessageWithOK(event.getMessage());
-            jdaService.sendMessage("Ich habe dich aus der Liste entfernt :)");
+            jdaService.sendMessage(MESSAGE_REMOVED);
         } else {
             logger.info("User {} was not registered", event.getMember().getEffectiveName());
             jdaService.reactToMessageWithAngryFace(event.getMessage());

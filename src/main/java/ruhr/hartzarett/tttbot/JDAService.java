@@ -24,24 +24,17 @@ public class JDAService {
     private TextChannel channel;
 
     @Autowired
-    public JDAService(Config config, ApplicationContext context) throws LoginException {
+    public JDAService(Config config, JDA jda) {
         logger.info("Initializing JDA");
-        JDABuilder builder = JDABuilder.createDefault(config.getBotToken());
+        this.jda = jda;
         try {
-            jda = builder.build();
-        } catch (LoginException e) {
-            logger.error("It seems the token did not work or something else prohibited us from logging into Discord API", e);
-            logger.error("Exiting, running this application without connection to Discord API is useless.");
-            throw e;
-        }
-        try {
-            jda.awaitReady();
+            this.jda.awaitReady();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         logger.info("JDA Initialization succesful!");
         logger.info("Searching for channels with name {}", config.getChannelName());
-        List<TextChannel> channels = jda.getTextChannelsByName(config.getChannelName(), false);
+        List<TextChannel> channels = this.jda.getTextChannelsByName(config.getChannelName(), false);
         System.out.println(channels);
         if (channels.isEmpty()) {
             logger.error("Could not find the specified channel {}. Please check the name in your application.properties file. Exiting.", config.getChannelName());
