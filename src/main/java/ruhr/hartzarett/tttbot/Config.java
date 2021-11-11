@@ -2,13 +2,11 @@ package ruhr.hartzarett.tttbot;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.context.annotation.Bean;
-import org.springframework.validation.annotation.Validated;
 
 import javax.security.auth.login.LoginException;
 import javax.validation.constraints.NotEmpty;
@@ -16,24 +14,26 @@ import javax.validation.constraints.NotEmpty;
 
 @ConfigurationProperties(prefix = "discord")
 @ConstructorBinding
-@Validated
 public class Config {
 
-    Logger logger = LoggerFactory.getLogger(Config.class);
-
-    @NotNull
     @NotEmpty
     private final String channelName;
-    @NotNull
     @NotEmpty
     private final String botToken;
-    @NotNull
     private final boolean isFunnyEnabled;
+    private final int trollPercentage;
+    private final int trollWaittime;
 
-    public Config(String channelName, String token, boolean beFunny) {
+    private Logger logger = LoggerFactory.getLogger(Config.class);
+
+    public Config(String channelName, String token, boolean beFunny, int trollPercentage, int trollWaitTime) {
+        if (trollPercentage < 0 || trollPercentage > 100)
+            throw new IllegalArgumentException("trollPercentage muss zwischen 0 und 100 liegen!");
         this.channelName = channelName;
         this.botToken = token;
         this.isFunnyEnabled = beFunny;
+        this.trollPercentage = trollPercentage;
+        this.trollWaittime = trollWaitTime;
     }
 
     public String getBotToken() {
@@ -46,6 +46,14 @@ public class Config {
 
     public boolean isFunnyEnabled() {
         return isFunnyEnabled;
+    }
+
+    public int getTrollWaittime() {
+        return trollWaittime;
+    }
+
+    public int getTrollPercentage() {
+        return trollPercentage;
     }
 
     @Bean
