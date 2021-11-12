@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import javax.security.auth.login.LoginException;
 
 @SpringBootApplication
-@EnableAsync
+@EnableAsync(proxyTargetClass=true)
 @ConfigurationPropertiesScan
 public class TttbotApplication {
 

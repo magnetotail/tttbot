@@ -1,13 +1,16 @@
 package ruhr.hartzarett.tttbot;
 
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MuteService {
+public class MuteService extends ListenerAdapter {
 
     private final Logger logger = LoggerFactory.getLogger(MuteService.class);
 
@@ -44,5 +47,10 @@ public class MuteService {
             e.printStackTrace();
         }
         registrationService.getAllPlayers().forEach(p -> mute(p, muted));
+    }
+
+    @Override
+    public void onButtonClick(@NotNull ButtonClickEvent event) {
+        //unmute peeps who want to be unmuted
     }
 }

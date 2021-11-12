@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ruhr.hartzarett.tttbot.commands.Commands;
 
 import java.util.List;
 
@@ -42,6 +43,12 @@ public class JDAService {
         }
         channel = channels.get(0);
         logger.info("Found channel {}", config.getChannelName());
+        channel.getGuild().upsertCommand(Commands.REGISTER.createCommandData()).queue();
+        channel.getGuild().upsertCommand(Commands.REMOVE.createCommandData()).queue();
+        channel.getGuild().upsertCommand(Commands.SHOW_FOR_STEAMNAME.createCommandData()).queue();
+        channel.getGuild().upsertCommand(Commands.SHOW.createCommandData()).queue();
+        channel.getGuild().upsertCommand(Commands.LIST.createCommandData()).queue();
+        channel.getGuild().upsertCommand(Commands.HELP.createCommandData()).queue();
     }
 
     public void addEventListener(EventListener listener) {
