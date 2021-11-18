@@ -1,10 +1,13 @@
 package ruhr.hartzarett.tttbot;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ruhr.hartzarett.tttbot.data.Config;
@@ -56,10 +59,12 @@ class JDAServiceTest {
         }
 
         @Test
-        void constructor_is_fine(@Mock JDA jda, @Mock TextChannel channel) {
+        void constructor_is_fine(@Mock JDA jda, @Mock TextChannel channel, @Mock Guild guild, @Mock CommandCreateAction action) {
             //arrange
             when(jda.getTextChannelsByName(config.getChannelName(), false))
                     .thenReturn(List.of(channel));
+            when(channel.getGuild()).thenReturn(guild);
+            when(guild.upsertCommand(ArgumentMatchers.any())).thenReturn(action);
             //Act
             new JDAService(config, jda);
             //Assert

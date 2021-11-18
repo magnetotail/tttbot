@@ -18,7 +18,7 @@ public enum Commands implements Command {
 
     REGISTER("register", "Registriert dich", List.of(CommandOptions.STEAMNAME_REQUIRED)),
     REMOVE("remove", "Entfernt dich", Collections.emptyList()),
-    SHOW_FOR_STEAMNAME("showForSteam", "Zeigt an, welcher Member mit einem Steamnamen verknüpft ist", List.of(CommandOptions.STEAMNAME_REQUIRED)),
+    SHOW_FOR_STEAMNAME("showforsteam", "Zeigt an, welcher Member mit einem Steamnamen verknüpft ist", List.of(CommandOptions.STEAMNAME_REQUIRED)),
     SHOW("show", "Zeigt an, welcher Steamname mit dir verknüpft ist", Collections.emptyList()),
     LIST("list", "Listet alle registrierten Member mit zugehörigem Steamnamen auf", Collections.emptyList()),
     HELP("help", "Listet alle verfügbaren Kommandos mit Beschreibung auf", Collections.emptyList()),
