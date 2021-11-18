@@ -10,4 +10,9 @@ public interface Command {
 
     List<CommandOption> getOptions();
 
+    default String createHelpText() {
+        return getName() + ": " + getDescription() + ". Parameter: " + (!getOptions().isEmpty() ? getOptions().stream().map(CommandOption::createHelpText) : "keine.");
+    }
+
+
 }

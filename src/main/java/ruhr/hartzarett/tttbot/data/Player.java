@@ -1,4 +1,4 @@
-package ruhr.hartzarett.tttbot;
+package ruhr.hartzarett.tttbot.data;
 
 import java.util.Objects;
 

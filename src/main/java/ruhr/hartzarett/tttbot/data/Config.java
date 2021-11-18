@@ -1,4 +1,4 @@
-package ruhr.hartzarett.tttbot;
+package ruhr.hartzarett.tttbot.data;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 import javax.security.auth.login.LoginException;
 import javax.validation.constraints.NotEmpty;
+import java.util.Locale;
 
 
 @ConfigurationProperties(prefix = "discord")
@@ -23,10 +24,11 @@ public class Config {
     private final boolean isFunnyEnabled;
     private final int trollPercentage;
     private final int trollWaittime;
+    private final Locale locale;
 
     private Logger logger = LoggerFactory.getLogger(Config.class);
 
-    public Config(String channelName, String token, boolean beFunny, int trollPercentage, int trollWaitTime) {
+    public Config(String channelName, String token, boolean beFunny, int trollPercentage, int trollWaitTime, String locale) {
         if (trollPercentage < 0 || trollPercentage > 100)
             throw new IllegalArgumentException("trollPercentage muss zwischen 0 und 100 liegen!");
         this.channelName = channelName;
@@ -34,6 +36,7 @@ public class Config {
         this.isFunnyEnabled = beFunny;
         this.trollPercentage = trollPercentage;
         this.trollWaittime = trollWaitTime;
+        this.locale = Locale.forLanguageTag(locale);
     }
 
     public String getBotToken() {
@@ -67,4 +70,7 @@ public class Config {
         }
     }
 
+    public Locale getLocale() {
+        return locale;
+    }
 }

@@ -1,4 +1,4 @@
-package ruhr.hartzarett.tttbot;
+package ruhr.hartzarett.tttbot.service;
 
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import ruhr.hartzarett.tttbot.data.Player;
 
 @Service
 public class MuteService extends ListenerAdapter {
@@ -25,7 +26,7 @@ public class MuteService extends ListenerAdapter {
     public void mute(Player player, boolean muteStatus) {
         logger.info("Trying to {} player {}", muteStatus ? "mute" : "unmute", player);
         if (registrationService.isRegistered(player)) {
-            Member member = registrationService.getMemberForPlayer(player);
+            Member member = registrationService.findMemberForPlayer(player).get(0);
             logger.info("Trying to {} member {}", muteStatus ? "mute" : "unmute", member.getEffectiveName());
             if (member.getVoiceState().inVoiceChannel()) {
                 member.mute(muteStatus).queue();
@@ -49,8 +50,4 @@ public class MuteService extends ListenerAdapter {
         registrationService.getAllPlayers().forEach(p -> mute(p, muted));
     }
 
-    @Override
-    public void onButtonClick(@NotNull ButtonClickEvent event) {
-        //unmute peeps who want to be unmuted
-    }
 }

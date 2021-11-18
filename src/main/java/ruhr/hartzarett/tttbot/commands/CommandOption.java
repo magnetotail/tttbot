@@ -8,4 +8,8 @@ public interface CommandOption {
     String getName();
     String getDescription();
     boolean isRequired();
+
+    default String createHelpText() {
+        return getName() + ": " + getDescription() + ". Pflichtparameter: " + (isRequired() ? "ja" : "nein");
+    }
 }

@@ -1,4 +1,4 @@
-package ruhr.hartzarett.tttbot;
+package ruhr.hartzarett.tttbot.service;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ruhr.hartzarett.tttbot.commands.Commands;
+import ruhr.hartzarett.tttbot.data.Config;
 
 import java.util.List;
 

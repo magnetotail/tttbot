@@ -7,9 +7,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import ruhr.hartzarett.tttbot.data.Config;
+import ruhr.hartzarett.tttbot.service.JDAService;
 
 import javax.security.auth.login.LoginException;
 import java.util.List;
@@ -26,7 +25,7 @@ class JDAServiceTest {
 
     @BeforeEach
     void setUp() throws LoginException {
-        config = new Config("","", false, 0, 0);
+        config = new Config("","", false, 0, 0, "de_DE");
     }
 
 
