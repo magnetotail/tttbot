@@ -84,15 +84,7 @@ public class SlashCommandService extends ListenerAdapter {
         Member member = Objects.requireNonNull(event.getMember());
         registrationService.register(event.getMember(), player);
         logger.info("Registered user {} with player {}", member.getEffectiveName(), player);
-        if (config.isFunnyEnabled() && ThreadLocalRandom.current().nextInt(0, 100) < config.getTrollPercentage()) {
-            //jdaService.sendMessage(TROLL_ANSWER_REGISTER);
-            try {
-                Thread.sleep(config.getTrollWaittime());
-            } catch (InterruptedException e) {
-            }
-        } else {
-            event.reply(String.format(messageBundle.getString("registeredUser"), player, member.getEffectiveName())).queue();
-        }
+        event.reply(String.format(messageBundle.getString("registeredUser"), player, member.getEffectiveName())).queue();
     }
 
     private void printHelp(SlashCommandEvent event) {
@@ -105,10 +97,5 @@ public class SlashCommandService extends ListenerAdapter {
 
     @Override
     public void onButtonClick(@NotNull ButtonClickEvent event) {
-        if (event.getButton().getLabel().equals("unmute")) {
-            System.out.println("DA WILL WOHL JEMAND UNMUTET WERDEN OLOLOLOLO");
-            event.getChannel().sendMessage("Nö").queue();
-        }
-        event.reply("fooblubb").queue();
     }
 }
