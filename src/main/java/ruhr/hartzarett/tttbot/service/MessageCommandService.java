@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ruhr.hartzarett.tttbot.commands.Commands;
 import ruhr.hartzarett.tttbot.data.Config;
 import ruhr.hartzarett.tttbot.data.Player;
+import ruhr.hartzarett.tttbot.util.TextKeys;
 
 import java.util.List;
 import java.util.Locale;
@@ -42,10 +43,13 @@ public class MessageCommandService extends ListenerAdapter {
                 case SHOW -> showForMember(event);
                 case LIST -> list(event);
                 case HELP -> printHelp(event);
-                default -> {}
+                default -> printUnknownCommand(event);
             }
         }
-        super.onMessageReceived(event);
+    }
+
+    private void printUnknownCommand(MessageReceivedEvent event) {
+        jdaService.sendMessage(String.format(messageBundle.getString(TextKeys.MESSAGE_UNKNOWN_COMMAND), event.getMessage().getContentRaw()));
     }
 
     private void printHelp(MessageReceivedEvent event) {

@@ -15,4 +15,5 @@ public class TextKeys {
     public static final String MESSAGE_NOBODY = "nobody";
     public static final String MESSAGE_HELP_MESSAGE_COMMAND = "help_message_command";
     public static final String MESSAGE_HELP_SLASH_COMMAND = "help_slash_command";
+    public static final String MESSAGE_UNKNOWN_COMMAND = "unknown_command";
 }
