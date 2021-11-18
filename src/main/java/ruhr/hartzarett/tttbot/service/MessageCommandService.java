@@ -5,6 +5,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import ruhr.hartzarett.tttbot.commands.Commands;
 import ruhr.hartzarett.tttbot.data.Config;
@@ -31,6 +33,11 @@ public class MessageCommandService extends ListenerAdapter {
         this.jdaService = jdaService;
         this.config = config;
         messageBundle = ResourceBundle.getBundle("messages", config.getLocale());
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    private void initialize() {
+        jdaService.addEventListener(this);
     }
 
     @Override

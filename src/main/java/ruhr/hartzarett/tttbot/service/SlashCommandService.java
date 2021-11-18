@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import ruhr.hartzarett.tttbot.commands.CommandOptions;
 import ruhr.hartzarett.tttbot.commands.Commands;
@@ -18,7 +20,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,13 +29,20 @@ public class SlashCommandService extends ListenerAdapter {
     private final Logger logger = LoggerFactory.getLogger(SlashCommandService.class);
     private final Config config;
     private final RegistrationService registrationService;
+    private final JDAService jdaService;
     private final ResourceBundle messageBundle;
 
     @Autowired
-    public SlashCommandService(Config config, RegistrationService registrationService) {
+    public SlashCommandService(Config config, RegistrationService registrationService, JDAService jdaService) {
         this.config = config;
         this.registrationService = registrationService;
+        this.jdaService = jdaService;
         messageBundle = ResourceBundle.getBundle("messages", config.getLocale());
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    private void initialize() {
+        jdaService.addEventListener(this);
     }
 
     @Override

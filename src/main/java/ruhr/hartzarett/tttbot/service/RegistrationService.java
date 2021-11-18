@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class RegistrationService extends ListenerAdapter {
+public class RegistrationService {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
 
@@ -36,7 +36,6 @@ public class RegistrationService extends ListenerAdapter {
 
     @EventListener(ApplicationReadyEvent.class)
     private void initialize() {
-        jdaService.addEventListener(this);
         logger.info("Listening to {}", config.getChannelName());
         jdaService.sendMessage(messageBundle.getString("greeting"));
     }
