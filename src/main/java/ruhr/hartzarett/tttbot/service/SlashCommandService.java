@@ -27,14 +27,12 @@ public class SlashCommandService extends ListenerAdapter {
 
 
     private final Logger logger = LoggerFactory.getLogger(SlashCommandService.class);
-    private final Config config;
     private final RegistrationService registrationService;
     private final JDAService jdaService;
     private final ResourceBundle messageBundle;
 
     @Autowired
     public SlashCommandService(Config config, RegistrationService registrationService, JDAService jdaService) {
-        this.config = config;
         this.registrationService = registrationService;
         this.jdaService = jdaService;
         messageBundle = ResourceBundle.getBundle("messages", config.getLocale());
