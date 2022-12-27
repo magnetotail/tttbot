@@ -90,7 +90,7 @@ public class SlashCommandService extends ListenerAdapter {
         Member member = Objects.requireNonNull(event.getMember());
         registrationService.register(event.getMember(), player);
         logger.info("Registered user {} with player {}", member.getEffectiveName(), player);
-        event.reply(String.format(messageBundle.getString("registeredUser"), player, member.getEffectiveName())).queue();
+        event.reply(String.format(messageBundle.getString("registered_user"), player, member.getEffectiveName())).queue();
     }
 
     private void printHelp(SlashCommandEvent event) {
