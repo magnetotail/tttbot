@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import ruhr.hartzarett.tttbot.data.Player;
 import ruhr.hartzarett.tttbot.service.MuteService;
 
@@ -28,15 +30,17 @@ public class MuteController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/mute", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<Object> mute(Player player) {
+    @PostMapping(path = "/mute")
+    public ResponseEntity<Object> mute(@RequestBody Player player) {
+//        Player player = new Player(name);
         logger.info("Got call to mute " + player);
         muteService.mute(player, true);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(path = "/unmute", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public ResponseEntity<Object> unmute(Player player) {
+    @PostMapping(path = "/unmute")
+    public ResponseEntity<Object> unmute(@RequestBody Player player) {
+//        Player player = new Player(name);
         logger.info("Got call to unmute " + player);
         muteService.mute(player, false);
         return new ResponseEntity<>(HttpStatus.OK);
