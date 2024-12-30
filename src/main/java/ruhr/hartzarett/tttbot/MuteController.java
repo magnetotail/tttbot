@@ -34,7 +34,7 @@ public class MuteController {
     public ResponseEntity<Object> mute(@RequestBody Player player) {
 //        Player player = new Player(name);
         logger.info("Got call to mute " + player);
-        muteService.mute(player, true);
+        muteService.mute(player, true, false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -42,7 +42,7 @@ public class MuteController {
     public ResponseEntity<Object> unmute(@RequestBody Player player) {
 //        Player player = new Player(name);
         logger.info("Got call to unmute " + player);
-        muteService.mute(player, false);
+        muteService.mute(player, false, false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

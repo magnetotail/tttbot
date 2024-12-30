@@ -10,6 +10,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ruhr.hartzarett.tttbot.data.Player;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class MuteService extends ListenerAdapter {
 
@@ -23,19 +25,26 @@ public class MuteService extends ListenerAdapter {
         this.jdaService = jdaService;
     }
 
-    public void mute(Player player, boolean muteStatus) {
+    public void mute(Player player, boolean muteStatus, boolean everyone) {
         logger.info("Trying to {} player {}", muteStatus ? "mute" : "unmute", player);
-        if (registrationService.isRegistered(player)) {
-            Member member = registrationService.findMemberForPlayer(player).get(0);
-            logger.info("Trying to {} member {}", muteStatus ? "mute" : "unmute", member.getEffectiveName());
-            if (member.getVoiceState().inVoiceChannel()) {
-                member.mute(muteStatus).queue();
-                logger.info("{} {}", muteStatus ? "Muted" : "Unmuted", member.getEffectiveName());
-            } else {
-                logger.warn("Tried to {} {} but they are not in a voice channel as it seems", muteStatus ? "mute" : "unmute", member.getEffectiveName());
-            }
+        if (!registrationService.isRegistered(player)) {
+            logger.warn("Could not find a discord user for steam name {}", player);
+            return;
+        }
+
+        Member member = registrationService.findMemberForPlayer(player).get(0);
+        logger.info("Trying to {} member {}", muteStatus ? "mute" : "unmute", member.getEffectiveName());
+        if (!member.getVoiceState().inVoiceChannel()) {
+            logger.warn("Tried to {} {} but they are not in a voice channel as it seems", muteStatus ? "mute" : "unmute", member.getEffectiveName());
+            return;
+        }
+
+        if (muteStatus || everyone) {
+            member.mute(muteStatus).queue();
+            logger.info("{} {}", muteStatus ? "muted" : "unmuted", member.getEffectiveName());
         } else {
-            logger.warn("Could not find a discord user for steam name " + player);
+            member.mute(false).queueAfter(3, TimeUnit.SECONDS); // unmute only used in case of disconnect. Server will send mute because of death before unmute so we wait...
+            logger.info("Unmuting {} in 3 seconds.", member.getEffectiveName());
         }
     }
 
@@ -47,7 +56,7 @@ public class MuteService extends ListenerAdapter {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        registrationService.getAllPlayers().forEach(p -> mute(p, muted));
+        registrationService.getAllPlayers().forEach(p -> mute(p, muted, true));
     }
 
 }
