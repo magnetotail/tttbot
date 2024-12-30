@@ -44,3 +44,25 @@ hook.Add("TTTEndRound", "unmute_all", function(_)
             type = "application/x-www-form-urlencoded"
     })
 end)
+
+hook.Add("TTTBeginRound", "unmute_all_begin", function(_)
+        if pcall(require, "chttp") and CHTTP ~= nil then
+                my_http = CHTTP
+        else
+                my_http = HTTP
+        end
+
+        my_http({
+                failed = function(message)
+                    print(message)
+                end,
+            success = function(body,length,headers,code)
+                    print("POST completed")
+                end,
+            method = "POST",
+            url = "http://hartzarett.ruhr:1234/unmute/all",
+            headers = nil,
+            body = nil,
+            type = "application/x-www-form-urlencoded"
+    })
+end)
