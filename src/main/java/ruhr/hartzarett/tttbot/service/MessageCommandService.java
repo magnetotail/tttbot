@@ -90,7 +90,7 @@ public class MessageCommandService extends ListenerAdapter {
             return;
         }
         registrationService.removeMember(event.getMember());
-        jdaService.sendMessage(messageBundle.getString("removed"));
+        jdaService.sendMessage(messageBundle.getString("was_removed"));
         jdaService.reactToMessageWithOK(event.getMessage());
     }
 
