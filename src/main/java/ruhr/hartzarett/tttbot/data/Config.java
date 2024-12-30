@@ -36,7 +36,7 @@ public class Config {
         this.isFunnyEnabled = beFunny;
         this.trollPercentage = trollPercentage;
         this.trollWaittime = trollWaitTime;
-        this.locale = Locale.forLanguageTag(locale);
+        this.locale = Locale.GERMAN;
     }
 
     public String getBotToken() {

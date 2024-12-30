@@ -30,6 +30,7 @@ public class RegistrationService {
     public RegistrationService(JDAService jdaService, Config config) {
         this.jdaService = jdaService;
         this.config = config;
+        logger.info("Trying to get message bundle for locale: \"{}\"", config.getLocale());
         messageBundle = ResourceBundle.getBundle("messages", config.getLocale());
         players = new HashMap<>();
     }
