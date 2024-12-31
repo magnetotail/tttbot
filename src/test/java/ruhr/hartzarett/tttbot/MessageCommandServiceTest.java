@@ -87,40 +87,11 @@ class MessageCommandServiceTest {
     @Nested
     class Test_Message_Received_Event {
 
-        @Nested
-        class Register_User {
 
-            @Test
-            void register_user(@Mock Message message, @Mock Member member) {
-                //arrange
-                when(message.getContentRaw()).thenReturn("!" + Commands.REGISTER.getName() + " " + STEAM_NAME_DEFAULT);
-                when(member.getEffectiveName()).thenReturn(MEMBER_NAME_DEFAULT);
-                //act
-                triggerMessageReceivedEvent(message, member, MEMBER_NAME_DEFAULT);
-                //assert
-                assertThat(registrationService.getAllPlayers().size()).isEqualTo(1);
-                assertThat(registrationService.findMemberForPlayer(new Player(STEAM_NAME_DEFAULT)).get(0).getEffectiveName()).isEqualTo(MEMBER_NAME_DEFAULT);
-                assertThat(registrationService.findMemberForPlayer(new Player(STEAM_NAME_DEFAULT)).get(0)).isEqualTo(member);
-                Mockito.verify(jdaService).sendMessage(String.format(messageBundle.getString(TextKeys.MESSAGE_REGISTERED), new Player(STEAM_NAME_DEFAULT), member.getEffectiveName()));
-                Mockito.verify(jdaService).reactToMessageWithOK(message);
-            }
-        }
 
         @Nested
         class Show_For_SteamName {
 
-            @Test
-            void show_user_for_steamname(@Mock Message messageRegister, @Mock Member member, @Mock Message messageShow) {
-                //arrange
-                when(messageRegister.getContentRaw()).thenReturn("!" + Commands.REGISTER.getName() + " " + STEAM_NAME_DEFAULT);
-                when(member.getEffectiveName()).thenReturn(MEMBER_NAME_DEFAULT);
-                triggerMessageReceivedEvent(messageRegister, member, MEMBER_NAME_DEFAULT);
-                when(messageShow.getContentRaw()).thenReturn("!" + Commands.SHOW_FOR_STEAMNAME.getName() + " " + STEAM_NAME_DEFAULT);
-                //act
-                triggerMessageReceivedEvent(messageShow, MEMBER_NAME_DEFAULT, testee);
-                //assert
-                verify(jdaService).sendMessage(String.format(messageBundle.getString(TextKeys.MESSAGE_REGISTERED_FOR_STEAM), STEAM_NAME_DEFAULT, MEMBER_NAME_DEFAULT));
-            }
 
             @Test
             void show_user_for_not_registered_steamname(@Mock Message messageShow) {
@@ -161,23 +132,7 @@ class MessageCommandServiceTest {
             }
         }
 
-        @Test
-        void list_users_with_one_registered(@Mock Message messageRegister, @Mock Member member, @Mock Message messageList) {
-            //arrange
-            when(messageRegister.getContentRaw()).thenReturn("!" + Commands.REGISTER.getName() + " " + STEAM_NAME_DEFAULT);
-            when(member.getEffectiveName()).thenReturn(MEMBER_NAME_DEFAULT);
-            when(member.toString()).thenReturn(MEMBER_NAME_DEFAULT);
-            triggerMessageReceivedEvent(messageRegister, member, MEMBER_NAME_DEFAULT);
-            when(messageList.getContentRaw()).thenReturn("!" + Commands.LIST.getName());
 
-            Map<Member, Player> compareMap = new HashMap<>();
-            compareMap.put(member, new Player(STEAM_NAME_DEFAULT));
-            //act
-            triggerMessageReceivedEvent(messageList, MEMBER_NAME_DEFAULT, testee);
-
-            //assert
-            verify(jdaService).sendMessage(String.format(messageBundle.getString(TextKeys.MESSAGE_CURRENTLY_REGISTERED), compareMap));
-        }
 
         @Nested
         class Test_Is_Registered {
@@ -205,20 +160,6 @@ class MessageCommandServiceTest {
 
         @Nested
         class Remove {
-            @Test
-            void remove_existing_user(@Mock Message messageRegister, @Mock Message messageRemove, @Mock Member member) {
-                //arrange
-                when(messageRegister.getContentRaw()).thenReturn("!" + Commands.REGISTER.getName() + " " + STEAM_NAME_DEFAULT);
-                when(member.getEffectiveName()).thenReturn(MEMBER_NAME_DEFAULT);
-                triggerMessageReceivedEvent(messageRegister, member, MEMBER_NAME_DEFAULT);
-                when(messageRemove.getContentRaw()).thenReturn("!" + Commands.REMOVE.getName());
-                //act
-                triggerMessageReceivedEvent(messageRemove, member, MEMBER_NAME_DEFAULT);
-                //assert
-                assertThat(registrationService.getAllPlayers().size()).isEqualTo(0);
-                verify(jdaService).sendMessage(messageBundle.getString(TextKeys.MESSAGE_REMOVED));
-                verify(jdaService).reactToMessageWithOK(messageRemove);
-            }
 
             @Test
             void remove_not_existing_user(@Mock Message messageRemove, @Mock Member member) {

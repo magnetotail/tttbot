@@ -1,7 +1,6 @@
 package ruhr.hartzarett.tttbot.service;
 
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +15,9 @@ import java.util.stream.Collectors;
 
 @Service
 public class RegistrationService {
-
     private static final Logger logger = LoggerFactory.getLogger(RegistrationService.class);
 
-    private final Map<Member, Player> players;
+    private final Map<String, Player> players;
 
     private final JDAService jdaService;
 
@@ -42,21 +40,22 @@ public class RegistrationService {
     }
 
     public void register(@NotNull Member member, @NotNull Player player) {
-        players.put(member, player);
+        players.put(member.getNickname(), player);
         logger.debug("Registered user {} with player {}", member.getEffectiveName(), player);
     }
 
     public boolean removeMember(@NotNull Member member) {
         logger.debug("got call to remove {}", member.getEffectiveName());
-        return players.remove(member) != null;
+        return players.remove(member.getNickname()) != null;
     }
 
     public Optional<Player> findPlayerForMember(@NotNull Member member) {
-        return Optional.ofNullable(players.get(member));
+        return Optional.ofNullable(players.get(member.getNickname()));
     }
 
     public List<Member> findMemberForPlayer(@NotNull Player player) {
-        return players.entrySet().stream().filter(e -> e.getValue().equals(player)).map(Map.Entry::getKey).collect(Collectors.toList());
+        List<String> possibleMembers = players.entrySet().stream().filter(e -> e.getValue().equals(player)).map(Map.Entry::getKey).collect(Collectors.toList());
+        return jdaService.findMembersByNames(possibleMembers);
     }
 
     public boolean isRegistered(Player player) {
@@ -71,7 +70,7 @@ public class RegistrationService {
         return Collections.unmodifiableCollection(players.values());
     }
 
-    public Map<Member, Player> getPlayerMap() {
+    public Map<String, Player> getPlayerMap() {
         return new HashMap<>(players);
     }
 

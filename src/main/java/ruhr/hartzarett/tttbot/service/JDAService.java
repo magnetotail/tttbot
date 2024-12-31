@@ -1,6 +1,7 @@
 package ruhr.hartzarett.tttbot.service;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.hooks.EventListener;
@@ -12,6 +13,7 @@ import ruhr.hartzarett.tttbot.commands.Commands;
 import ruhr.hartzarett.tttbot.data.Config;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class JDAService {
@@ -59,6 +61,10 @@ public class JDAService {
     public void sendMessage(String message) {
         logger.info("Sending message \"{}\"", message);
         channel.sendMessage(message).queue();
+    }
+
+    public List<Member> findMembersByNames(List<String> names) {
+        return channel.getMembers().stream().filter(m -> names.contains(m.getNickname())).collect(Collectors.toList());
     }
 
     public void reactToMessageWithOK(Message message) {
